@@ -112,7 +112,7 @@
     row.className = 'doc-item' + (active ? ' active' : '');
     row.setAttribute('role', 'listitem');
     const symbol = document.createElement('span');
-    symbol.className = 'material-symbols-outlined file-icon';
+    symbol.className = 'icon file-icon';
     symbol.setAttribute('aria-hidden', 'true');
     symbol.textContent = icon;
     const info = document.createElement('span'); info.className = 'doc-info';
@@ -137,14 +137,14 @@
     group('Saved in ' + product);
     if (!docs.length) { const empty = document.createElement('div'); empty.className = 'empty-state'; empty.textContent = 'No saved documents yet'; list.append(empty); }
     for (const doc of docs) {
-      list.append(entry(doc.title, new Date(doc.updatedAt).toLocaleString(), 'description', doc.id === currentId,
+      list.append(entry(doc.title, new Date(doc.updatedAt).toLocaleString(), 'file-text', doc.id === currentId,
         async () => { try { await flush(); applyDocument(await api(`/documents/${encodeURIComponent(doc.id)}`)); await refreshLibrary(); } catch (e) { toast(e.message, true); } },
         async () => { if (!confirm(`Delete “${doc.title}”?`)) return; try { await api(`/documents/${encodeURIComponent(doc.id)}`, { method: 'DELETE' }); if (currentId === doc.id) newDocument(); await refreshLibrary(); } catch (e) { toast(e.message, true); } }));
     }
     group('Files in Documents');
     if (!files.length) { const empty = document.createElement('div'); empty.className = 'empty-state'; empty.textContent = 'Use Open File or place a supported file in Documents'; list.append(empty); }
     for (const file of files) {
-      list.append(entry(file.name, `${Math.max(1, Math.round(file.size / 1024))} KB`, 'draft', false,
+      list.append(entry(file.name, `${Math.max(1, Math.round(file.size / 1024))} KB`, 'file', false,
         async () => { try { await flush(); const opened = await api('/files/open', { method: 'POST', body: JSON.stringify({ path: file.name }) }); await openFile(opened.name, opened.content); } catch (e) { toast(`Could not open file: ${e.message}`, true); } }));
     }
   }
@@ -204,6 +204,11 @@
     document.documentElement.dataset.theme = next;
     try { localStorage.setItem(`${slug}-theme`, next); } catch (_) {}
   });
+  try {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+      if (!localStorage.getItem(`${slug}-theme`)) document.documentElement.dataset.theme = event.matches ? 'dark' : 'light';
+    });
+  } catch (_) {}
   $('star-btn').addEventListener('click', () => { starred = !starred; $('star-btn').setAttribute('aria-pressed', String(starred)); markDirty(); });
   title.addEventListener('input', () => { document.title = `${currentTitle()} — ${product}`; markDirty(); });
   title.addEventListener('keydown', (event) => { if (event.key === 'Enter') { event.preventDefault(); title.blur(); } });
