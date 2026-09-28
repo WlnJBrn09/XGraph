@@ -13,7 +13,7 @@
     "native": "npm run native:build && node scripts/run-native.js",
     "icon": "node scripts/make-icon.js",
     "dist:deb": "npm run native:build && python3 scripts/package-deb.py XGraph",
-    "dist:win": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-native-win.ps1",
+    "dist:rpm": "npm run native:build && python3 scripts/package-rpm.py XGraph",
     "test": "node scripts/test-model.js",
     "native:headless": "npm run native:build && node scripts/run-native.js --headless"
   }
