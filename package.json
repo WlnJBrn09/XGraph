@@ -1,0 +1,20 @@
+{
+  "name": "xgraph",
+  "version": "0.1.0",
+  "description": "XGraph — local drawing editor with liquid glass UI and Rust backend",
+  "author": "XGraph",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "cargo run",
+    "backend": "cargo run --release",
+    "backend:build": "cargo build --release",
+    "native:build": "cargo build --release && cargo build --release --manifest-path native-host/Cargo.toml",
+    "native": "npm run native:build && node scripts/run-native.js",
+    "icon": "node scripts/make-icon.js",
+    "dist:deb": "npm run native:build && python3 scripts/package-deb.py XGraph",
+    "dist:win": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-native-win.ps1",
+    "test": "node scripts/test-model.js",
+    "native:headless": "npm run native:build && node scripts/run-native.js --headless"
+  }
+}

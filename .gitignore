@@ -1,0 +1,12 @@
+/target
+/native-host/target
+/node_modules
+/dist
+*.log
+.DS_Store
+Thumbs.db
+documents/*.json
+!documents/.gitkeep
+
+.video-frames/
+
