@@ -112,9 +112,8 @@
     row.className = 'doc-item' + (active ? ' active' : '');
     row.setAttribute('role', 'listitem');
     const symbol = document.createElement('span');
-    symbol.className = 'icon file-icon';
+    symbol.className = `ph ph-${icon} file-icon`;
     symbol.setAttribute('aria-hidden', 'true');
-    symbol.textContent = icon;
     const info = document.createElement('span'); info.className = 'doc-info';
     const nameEl = document.createElement('span'); nameEl.className = 'doc-name'; nameEl.textContent = label;
     const metaEl = document.createElement('span'); metaEl.className = 'doc-meta'; metaEl.textContent = meta;
