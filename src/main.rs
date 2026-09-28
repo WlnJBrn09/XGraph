@@ -109,22 +109,8 @@ impl DocumentStore {
             file.sync_all().map_err(internal)?;
         }
         if let Err(e) = fs::rename(&temp, &path) {
-            #[cfg(windows)]
-            {
-                // Windows does not replace an existing destination with rename.
-                if path.exists() {
-                    fs::remove_file(&path).map_err(internal)?;
-                    fs::rename(&temp, &path).map_err(internal)?;
-                } else {
-                    let _ = fs::remove_file(&temp);
-                    return Err(internal(e));
-                }
-            }
-            #[cfg(not(windows))]
-            {
-                let _ = fs::remove_file(&temp);
-                return Err(internal(e));
-            }
+            let _ = fs::remove_file(&temp);
+            return Err(internal(e));
         }
         Ok(())
     }

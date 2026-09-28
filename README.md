@@ -22,7 +22,7 @@ Open `http://127.0.0.1:8791`. To build and launch the native host:
 npm run native
 ```
 
-On Windows, `npm run dist:win` creates a portable package. CI stages macOS and Linux packages too.
+Run `npm run dist:deb` (Debian/Ubuntu) or `npm run dist:rpm` (Fedora/RHEL/openSUSE) to build a package. CI builds and smoke-tests both.
 
 ## File support
 
